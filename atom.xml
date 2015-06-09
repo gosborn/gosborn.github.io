@@ -4,7 +4,7 @@
   <title><![CDATA[Greg Osborn]]></title>
   <link href="http://gosborn.github.io/atom.xml" rel="self"/>
   <link href="http://gosborn.github.io/"/>
-  <updated>2015-06-02T09:39:00-04:00</updated>
+  <updated>2015-06-08T21:02:46-04:00</updated>
   <id>http://gosborn.github.io/</id>
   <author>
     <name><![CDATA[Greg Osborn]]></name>
@@ -12,6 +12,76 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Newbie Developer, Ex-Scientist?]]></title>
+    <link href="http://gosborn.github.io/blog/2015/06/08/newbie-developer/"/>
+    <updated>2015-06-08T19:34:19-04:00</updated>
+    <id>http://gosborn.github.io/blog/2015/06/08/newbie-developer</id>
+    <content type="html"><![CDATA[<h2>From biology to coding</h2>
+
+<p>I&rsquo;ve traded in my microscopes for a keyboard. After a number of years pursuing a career in cellular biology, I&rsquo;ve put down the pipettes and decided to really, honestly learn how to write code.</p>
+
+<p>This blog will be about the struggle to learn new computer languages, find out how to use them and life lessons I learn along the way. I won&rsquo;t frequently comment on leaving <a href="http://www.howtoleaveacademia.com/" title="This is a great resource">academia</a>, but my perspective, learning habits and style have all been shaped by that environment.</p>
+
+<p>Jumping out of academia is quite frightening. That universal, cellular process you were an expert on? That&rsquo;s suddenly just as esoteric as astrobiology to most people. Chatting about cell polarity to non-biologists has induced a panic-induced desire to run the nearest research university. Really, what am I left with?</p>
+
+<p>It turns out that studying signal tranduction, gene regulation and mutant phenotypes isn&rsquo;t terribly different from learning how to write, manipulate and refactor code. Evolution has provided our cells with (typically) elegant mechanisms for processing information, communicating data between simple machines and providing feedback on actions. Elegant code (typically) isn&rsquo;t that different. While learning a new coding language is a struggle, it is fun for a biologist to tinker around with: you can think of it like a simple organism.</p>
+
+<h3>Code: not unlike a biological system</h3>
+
+<h4>Looping</h4>
+
+<p>A major principle in gene regulation is the logic behind feedback loops. Understanding how systems respond to, and attenuate, both transient and continuous information is a huge field of research. Below is a cartoon (from Paul Hardin&rsquo;s lab) of a feedback loop in circadian rhythm biology, containing both positive and negative information.</p>
+
+<p><img src="http://www.bio.tamu.edu/USERS/phardin/images/Fig3-InterlockedFBLs.jpg" alt="feedback" /></p>
+
+<p>Pretty complicated, but if you&rsquo;ve ever studied this sort of regulation, or sat through a seminar, you know it&rsquo;s not impossible to sort out.</p>
+
+<p>Code, for some reason, is viewed as magic, or a black box, but it&rsquo;s simpler to figure out than the PERIOD and CLOCK mess above.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def countdown(seconds)  
+</span><span class='line'>  while seconds &gt; 0  
+</span><span class='line'>    puts "#{seconds} SECOND(S)!"  
+</span><span class='line'>    seconds -= 1  
+</span><span class='line'>  end  
+</span><span class='line'>  "0 left. HAPPY NEW YEAR!"  
+</span><span class='line'>end
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above Ruby code takes in an argument &ldquo;seconds&rdquo; as a number and counts down in a stepwise fashion. Once it hits zero, it&rsquo;s a happy new year. Code can be simple, understandable, and nowhere near as complex as circadian rhythms.</p>
+
+<h4>The single responsbility principle</h4>
+
+<p>In code, one method should do one thing only. This is called the &ldquo;Single Repsonbility Principle&rdquo;. Programs frequently have a method, called a runner, that runs all the methods. While genes are frequently pleiotropic, they usually act in concert with others to manage cellular activity. What typically unites genes of similar ontologies? Master regulators, which aren&rsquo;t all that unlike runner methods.</p>
+
+<p>Evolution usually favors simplicity. Code does too.</p>
+
+<h4>Breaking it: the phenotypes</h4>
+
+<p>I love to break code. I get the feeling that many of my classmates at the Flatiron School do not feel the same way. Granted, most of the population does not enjoy seeing error messages like the one below.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>countdown.rb:18: syntax error, unexpected end-of-input, expecting keyword_end
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>
+Biologists sometimes spend years trying to introduce mutations into the genomes of model organisms, thereby breaking their systems. The field of biology is principally one that studies what happens when small wrenches are thrown into the inner workings of life. To get to play with systems so quickly, to see what is necessary for structure, what is superfluous or vestigal, and what surprisingly works is really fun. You can get errors back in milliseconds vs years.</p>
+
+<h3>Computer vs. the lab bench</h3>
+
+<p>If you think about systems analytically, biological systems aren&rsquo;t too dissimilar from those written by programmers. The analytically skills biologists acquire can be helpful in understanding all of this. As I continue to learn how to develop, I hope to explore, uncover and share some more similarities.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[My First Post on Octopress]]></title>
