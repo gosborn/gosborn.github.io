@@ -3,7 +3,7 @@ layout: post
 title: "Newbie Developer, Ex-Scientist?"
 date: 2015-06-08 19:34:19 -0400
 comments: true
-categories: 
+categories: Flatiron School
 ---
 
 
