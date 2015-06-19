@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Greg Osborn</title>
+  <title>The .zip method - Greg Osborn</title>
   <meta name="author" content="Greg Osborn">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://gosborn.github.io">
+  <link rel="canonical" href="http://gosborn.github.io/blog/2015/06/18/arranging-arrays">
   <link href="/favicon.ico" rel="icon">
   
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -60,15 +60,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/06/18/arranging-arrays/">The .zip Method</a></h1>
+      <h1 class="entry-title">The .zip Method</h1>
     
     
       <p class="meta">
@@ -91,7 +88,7 @@
   </header>
 
 
-  <div class="entry-content"><p style="text-align:center;"><img src="http://www.cayzu.com/wp-content/uploads/zipper-1030x360.jpg" title="zipper" alt="zips" /></p>
+<div class="entry-content"><p style="text-align:center;"><img src="http://www.cayzu.com/wp-content/uploads/zipper-1030x360.jpg" title="zipper" alt="zips" /></p>
 
 <p>Uggh, the time I&rsquo;ve wasted trying to google this method.</p>
 
@@ -188,119 +185,16 @@
 
 <p style="text-align:center;"><img src="http://assets.sbnation.com/assets/163084/AkronZipsLogo.jpg" title="Akron Zips Logo" alt="zips" /></p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/08/newbie-developer/">Newbie Developer, Ex-Scientist?</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn"><a href="/about" title="About the author (Greg Osborn)" rel="author">Greg Osborn</a></span></span>
 
-<time datetime="2015-06-08T19:34:19-04:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>From biology to coding</h2>
-
-<p>I&rsquo;ve traded in my microscopes for a keyboard. After a number of years pursuing a career in cellular biology, I&rsquo;ve put down the pipettes and decided to really, honestly learn how to write code.</p>
-
-<p>This blog will be about the struggle to learn new computer languages, find out how to use them and life lessons I learn along the way. I won&rsquo;t frequently comment on leaving <a href="http://www.howtoleaveacademia.com/" title="This is a great resource">academia</a>, but my perspective, learning habits and style have all been shaped by that environment.</p>
-
-<p>Jumping out of academia is quite frightening. That universal, cellular process you were an expert on? That&rsquo;s suddenly just as esoteric as astrobiology to most people. Chatting about cell polarity to non-biologists has induced a panic-induced desire to run the nearest research university. Really, what am I left with?</p>
-
-<p>It turns out that studying signal tranduction, gene regulation and mutant phenotypes isn&rsquo;t terribly different from learning how to write, manipulate and refactor code. Evolution has provided our cells with (typically) elegant mechanisms for processing information, communicating data between simple machines and providing feedback on actions. Elegant code (typically) isn&rsquo;t that different. While learning a new coding language is a struggle, it is fun for a biologist to tinker around with: you can think of it like a simple organism.</p>
-
-<h3>Code: not unlike a biological system</h3>
-
-<h4>Looping</h4>
-
-<p>A major principle in gene regulation is the logic behind feedback loops. Understanding how systems respond to, and attenuate, both transient and continuous information is a huge field of research. Below is a cartoon (from Paul Hardin&rsquo;s lab) of a feedback loop in circadian rhythm biology, containing both positive and negative information.</p>
-
-<p><img src="http://www.bio.tamu.edu/USERS/phardin/images/Fig3-InterlockedFBLs.jpg" alt="feedback" /></p>
-
-<p>Pretty complicated, but if you&rsquo;ve ever studied this sort of regulation, or sat through a seminar, you know it&rsquo;s not impossible to sort out.</p>
-
-<p>Code, for some reason, is viewed as magic, or a black box, but it&rsquo;s simpler to figure out than the PERIOD and CLOCK mess above.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def countdown(seconds)  
-</span><span class='line'>  while seconds &gt; 0  
-</span><span class='line'>    puts "#{seconds} SECOND(S)!"  
-</span><span class='line'>    seconds -= 1  
-</span><span class='line'>  end  
-</span><span class='line'>  "0 left. HAPPY NEW YEAR!"  
-</span><span class='line'>end
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The above Ruby code takes in an argument &ldquo;seconds&rdquo; as a number and counts down in a stepwise fashion. Once it hits zero, it&rsquo;s a happy new year. Code can be simple, understandable, and nowhere near as complex as circadian rhythms.</p>
-
-<h4>The single responsbility principle</h4>
-
-<p>In code, one method should do one thing only. This is called the &ldquo;Single Repsonbility Principle&rdquo;. Programs frequently have a method, called a runner, that runs all the methods. While genes are frequently pleiotropic, they usually act in concert with others to manage cellular activity. What typically unites genes of similar ontologies? Master regulators, which aren&rsquo;t all that unlike runner methods.</p>
-
-<p>Evolution usually favors simplicity. Code does too.</p>
-
-<h4>Breaking it: the phenotypes</h4>
-
-<p>I love to break code. I get the feeling that many of my classmates at the Flatiron School do not feel the same way. Granted, most of the population does not enjoy seeing error messages like the one below.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>countdown.rb:18: syntax error, unexpected end-of-input, expecting keyword_end
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-Biologists sometimes spend years trying to introduce mutations into the genomes of model organisms, thereby breaking their systems. The field of biology is principally one that studies what happens when small wrenches are thrown into the inner workings of life. To get to play with systems so quickly, to see what is necessary for structure, what is superfluous or vestigal, and what surprisingly works is really fun. You can get errors back in milliseconds vs years.</p>
-
-<h3>Computer vs. the lab bench</h3>
-
-<p>If you think about systems analytically, biological systems aren&rsquo;t too dissimilar from those written by programmers. The analytically skills biologists acquire can be helpful in understanding all of this. As I continue to learn how to develop, I hope to explore, uncover and share some more similarities.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/02/my-first-post-on-octopress/">My First Post on Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -312,27 +206,38 @@ Biologists sometimes spend years trying to introduce mutations into the genomes 
   
 
 
-<time datetime="2015-06-02T09:14:54-04:00" pubdate data-updated="true"></time>
-        
-      </p>
+<time datetime="2015-06-18T19:48:54-04:00" pubdate data-updated="true"></time>
+      
+
+<span class="categories">
+  
+    <a class='category' href='/blog/categories/flatiron/'>flatiron</a>, <a class='category' href='/blog/categories/school/'>school</a>
+  
+</span>
+
+
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>&ldquo;Hello, world.&rdquo;</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gosborn.github.io/blog/2015/06/18/arranging-arrays/" data-via="" data-counturl="http://gosborn.github.io/blog/2015/06/18/arranging-arrays/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/08/newbie-developer/" title="Previous Post: Newbie Developer, Ex-Scientist?">&laquo; Newbie Developer, Ex-Scientist?</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 
     </div>
   </div>

@@ -4,7 +4,7 @@
   <title><![CDATA[Greg Osborn]]></title>
   <link href="http://gosborn.github.io/atom.xml" rel="self"/>
   <link href="http://gosborn.github.io/"/>
-  <updated>2015-06-08T21:02:46-04:00</updated>
+  <updated>2015-06-18T21:32:17-04:00</updated>
   <id>http://gosborn.github.io/</id>
   <author>
     <name><![CDATA[Greg Osborn]]></name>
@@ -12,6 +12,110 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[The .zip method]]></title>
+    <link href="http://gosborn.github.io/blog/2015/06/18/arranging-arrays/"/>
+    <updated>2015-06-18T19:48:54-04:00</updated>
+    <id>http://gosborn.github.io/blog/2015/06/18/arranging-arrays</id>
+    <content type="html"><![CDATA[<p style="text-align:center;"><img src="http://www.cayzu.com/wp-content/uploads/zipper-1030x360.jpg" title="zipper" alt="zips" /></p>
+
+<p>Uggh, the time I&rsquo;ve wasted trying to google this method.</p>
+
+<p><em>&ldquo;ruby how to add two arrays into one array and have order switch?&rdquo;</em></p>
+
+<p><em>&ldquo;How to combine two arrays in an interwoven fashion? ruby&rdquo;</em></p>
+
+<p><em>&ldquo;how to shuffle two arrays in order and get one back ruby&rdquo;</em></p>
+
+<p><em>etc. etc.</em></p>
+
+<p>Once you remember its name, you have a pretty good idea of what .zip does. But personally, it&rsquo;s tough for me to keep the name in working memory, perhaps because .zip lives all the way at the bottom of the <a href="http://ruby-doc.org/core-2.2.2/Enumerable.html">Ruby Ennumerable documentation</a>.</p>
+
+<p>Maybe .zip is tough to google because it&rsquo;s so much easier to show its functionality than describe it with words.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array_1</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="n">array_2</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span>
+</span><span class='line'><span class="n">array_1</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">array_2</span><span class="p">)</span> <span class="c1">#=&gt; [[&quot;a&quot;, 1], [&quot;b&quot;, 2], [c, &quot;3&quot;]]</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Calling .zip on an array, while passing in another array as an argument, results in a new array composed of:</p>
+
+<p> <strong>[[array_1[0], array_2[0]],  [array_1[1], array_2[1]],  [array_1[2], array_2_[2]]</strong></p>
+
+<p>The two arrays are now interwoven or shuffled or mixed in order, in a nested array&hellip;I guess zippered is the best terminology here. Even the Ruby documentation is a little vague:</p>
+
+<blockquote><p>Takes one element from enum and merges corresponding elements from each args. This generates a sequence of n-element arrays, where n is one more than the count of arguments.</p></blockquote>
+
+<p>I find myself using .zip from time to time, so its important to remember a couple of things.</p>
+
+<ul>
+<li><strong>It returns a nested array.</strong> If 2D isn&rsquo;t your thing, .flatten.</li>
+<li><strong>It returns a nested array with elements equal to the length of the first array.</strong>
+
+<ul>
+<li>If your second array is longer than the first, those extra values will not be included in the output.</li>
+<li>But if it&rsquo;s the other way around, your second array is shorter, you&rsquo;ll get nil values to make up the difference. Example:</li>
+</ul>
+</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span>
+</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="o">[</span><span class="mi">101</span><span class="p">,</span><span class="mi">102</span><span class="p">,</span><span class="mi">103</span><span class="p">,</span><span class="mi">104</span><span class="o">]</span>
+</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="c1">#=&gt; [[1, 101], [2, 102], [3, 103]] </span>
+</span><span class='line'><span class="n">b</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1">#=&gt; [[101, 1], [102, 2], [103, 3], [104, nil]] </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><strong>The .zip function can work on more than two arrays:</strong></li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="o">]</span>
+</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="o">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="o">]</span>
+</span><span class='line'><span class="n">c</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="c1">#=&gt; [[1, 10, &quot;a&quot;], [2, 11, &quot;b&quot;], [3, 12, &quot;c&quot;], [4, 13, &quot;d&quot;]] </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><strong>.zip can be used to easily create a hash</strong> if your keys and values are in matching arrays:</li>
+</ul>
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">key_array</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;key1&quot;</span><span class="p">,</span> <span class="s2">&quot;key2&quot;</span><span class="p">,</span> <span class="s2">&quot;key3&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="n">value_array</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;value1&quot;</span><span class="p">,</span> <span class="s2">&quot;value2&quot;</span><span class="p">,</span> <span class="s2">&quot;value3&quot;</span><span class="o">]</span>
+</span><span class='line'><span class="no">Hash</span><span class="o">[</span><span class="n">key_array</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">value_array</span><span class="p">)</span><span class="o">]</span> <span class="c1">#=&gt; {&quot;key1&quot;=&gt;&quot;value1&quot;, &quot;key2&quot;=&gt;&quot;value2&quot;, &quot;key3&quot;=&gt;&quot;value3&quot;} </span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<ul>
+<li><strong>Also, .zip does take a block, but return an unconditional nil.</strong> There was <a href="https://bugs.ruby-lang.org/issues/5044">talk</a> of changing this, or adding a .zip_with feature, to make use of this function a few years back, but was dropped and forgotten about. Unless you are looking to puts to the console, I can&rsquo;t think of a valid way to use this feature.</li>
+</ul>
+
+
+<p>Hopefully, this post will increase .zip awareness: a very useful function, obviously to honor the mighty Akron Zips.</p>
+
+<p style="text-align:center;"><img src="http://assets.sbnation.com/assets/163084/AkronZipsLogo.jpg" title="Akron Zips Logo" alt="zips" /></p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Newbie Developer, Ex-Scientist?]]></title>
