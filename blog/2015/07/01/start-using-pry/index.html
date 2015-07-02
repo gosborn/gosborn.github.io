@@ -5,7 +5,7 @@
 <!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
 <head>
   <meta charset="utf-8">
-  <title>Greg Osborn</title>
+  <title>Start using Pry! - Greg Osborn</title>
   <meta name="author" content="Greg Osborn">
 
   
@@ -18,7 +18,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   
-  <link rel="canonical" href="http://gosborn.github.io">
+  <link rel="canonical" href="http://gosborn.github.io/blog/2015/07/01/start-using-pry">
   <link href="/favicon.ico" rel="icon">
   
   <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
@@ -60,15 +60,12 @@
 </nav>
   <div id="main">
     <div id="content">
-      <div class="blog-index">
+      <div>
+<article class="hentry" role="article">
   
-  
-  
-    <article>
-      
   <header>
     
-      <h1 class="entry-title"><a href="/blog/2015/07/01/start-using-pry/">Start Using Pry!</a></h1>
+      <h1 class="entry-title">Start Using Pry!</h1>
     
     
       <p class="meta">
@@ -91,7 +88,7 @@
   </header>
 
 
-  <div class="entry-content"><h2>Tips for using Pry</h2>
+<div class="entry-content"><h2>Tips for using Pry</h2>
 
 <p><img src="https://camo.githubusercontent.com/c26ae0f28a595b15dc4d135fdcc113366f811853/68747470733a2f2f646c2e64726f70626f782e636f6d2f752f32363532313837352f70727925323073747566662f6c6f676f2f7072795f6c6f676f5f3335302e706e67" alt="pry_image" /></p>
 
@@ -483,153 +480,16 @@
 <a href="https://github.com/pry/pry/wiki/Available-plugins">Pry Plugins</a><br/>
 <a href="http://www.danvisintainer.com/?p=5">PryBaby</a></p>
 </div>
-  
-  
 
 
-    </article>
-  
-  
-    <article>
+  <footer>
+    <p class="meta">
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/18/arranging-arrays/">The .zip Method</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
   
 
+<span class="byline author vcard">Posted by <span class="fn"><a href="/about" title="About the author (Greg Osborn)" rel="author">Greg Osborn</a></span></span>
 
-<time datetime="2015-06-18T19:48:54-04:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><p style="text-align:center;"><img src="http://www.cayzu.com/wp-content/uploads/zipper-1030x360.jpg" title="zipper" alt="zips" /></p>
-
-<p>Uggh, the time I&rsquo;ve wasted trying to google this method.</p>
-
-<p><em>&ldquo;ruby how to add two arrays into one array and have order switch?&rdquo;</em></p>
-
-<p><em>&ldquo;How to combine two arrays in an interwoven fashion? ruby&rdquo;</em></p>
-
-<p><em>&ldquo;how to shuffle two arrays in order and get one back ruby&rdquo;</em></p>
-
-<p><em>etc. etc.</em></p>
-
-<p>Once you remember its name, you have a pretty good idea of what .zip does. But personally, it&rsquo;s tough for me to keep the name in working memory, perhaps because .zip lives all the way at the bottom of the <a href="http://ruby-doc.org/core-2.2.2/Enumerable.html">Ruby Ennumerable documentation</a>.</p>
-
-<p>Maybe .zip is tough to google because it&rsquo;s so much easier to show its functionality than describe it with words.</p>
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">array_1</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="o">]</span>
-</span><span class='line'><span class="n">array_2</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="o">]</span>
-</span><span class='line'><span class="n">array_1</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">array_2</span><span class="p">)</span> <span class="c1">#=&gt; [[&quot;a&quot;, 1], [&quot;b&quot;, 2], [c, &quot;3&quot;]]</span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>Calling .zip on an array, while passing in another array as an argument, results in a new array composed of:</p>
-
-<p> <strong>[[array_1[0], array_2[0]],  [array_1[1], array_2[1]],  [array_1[2], array_2_[2]]</strong></p>
-
-<p>The two arrays are now interwoven or shuffled or mixed in order, in a nested array&hellip;I guess zippered is the best terminology here. Even the Ruby documentation is a little vague:</p>
-
-<blockquote><p>Takes one element from enum and merges corresponding elements from each args. This generates a sequence of n-element arrays, where n is one more than the count of arguments.</p></blockquote>
-
-<p>I find myself using .zip from time to time, so its important to remember a couple of things.</p>
-
-<ul>
-<li><strong>It returns a nested array.</strong> If 2D isn&rsquo;t your thing, .flatten.</li>
-<li><strong>It returns a nested array with elements equal to the length of the first array.</strong>
-
-<ul>
-<li>If your second array is longer than the first, those extra values will not be included in the output.</li>
-<li>But if it&rsquo;s the other way around, your second array is shorter, you&rsquo;ll get nil values to make up the difference. Example:</li>
-</ul>
-</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="o">]</span>
-</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="o">[</span><span class="mi">101</span><span class="p">,</span><span class="mi">102</span><span class="p">,</span><span class="mi">103</span><span class="p">,</span><span class="mi">104</span><span class="o">]</span>
-</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">b</span><span class="p">)</span> <span class="c1">#=&gt; [[1, 101], [2, 102], [3, 103]] </span>
-</span><span class='line'><span class="n">b</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="c1">#=&gt; [[101, 1], [102, 2], [103, 3], [104, nil]] </span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li><strong>The .zip function can work on more than two arrays:</strong></li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">a</span> <span class="o">=</span> <span class="o">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="o">]</span>
-</span><span class='line'><span class="n">b</span> <span class="o">=</span> <span class="o">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">12</span><span class="p">,</span><span class="mi">13</span><span class="o">]</span>
-</span><span class='line'><span class="n">c</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;a&quot;</span><span class="p">,</span> <span class="s2">&quot;b&quot;</span><span class="p">,</span> <span class="s2">&quot;c&quot;</span><span class="p">,</span> <span class="s2">&quot;d&quot;</span><span class="o">]</span>
-</span><span class='line'><span class="n">a</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">c</span><span class="p">)</span> <span class="c1">#=&gt; [[1, 10, &quot;a&quot;], [2, 11, &quot;b&quot;], [3, 12, &quot;c&quot;], [4, 13, &quot;d&quot;]] </span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li><strong>.zip can be used to easily create a hash</strong> if your keys and values are in matching arrays:</li>
-</ul>
-
-
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">key_array</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;key1&quot;</span><span class="p">,</span> <span class="s2">&quot;key2&quot;</span><span class="p">,</span> <span class="s2">&quot;key3&quot;</span><span class="o">]</span>
-</span><span class='line'><span class="n">value_array</span> <span class="o">=</span> <span class="o">[</span><span class="s2">&quot;value1&quot;</span><span class="p">,</span> <span class="s2">&quot;value2&quot;</span><span class="p">,</span> <span class="s2">&quot;value3&quot;</span><span class="o">]</span>
-</span><span class='line'><span class="no">Hash</span><span class="o">[</span><span class="n">key_array</span><span class="o">.</span><span class="n">zip</span><span class="p">(</span><span class="n">value_array</span><span class="p">)</span><span class="o">]</span> <span class="c1">#=&gt; {&quot;key1&quot;=&gt;&quot;value1&quot;, &quot;key2&quot;=&gt;&quot;value2&quot;, &quot;key3&quot;=&gt;&quot;value3&quot;} </span>
-</span></code></pre></td></tr></table></div></figure>
-
-
-<ul>
-<li><strong>Also, .zip does take a block, but return an unconditional nil.</strong> There was <a href="https://bugs.ruby-lang.org/issues/5044">talk</a> of changing this, or adding a .zip_with feature, to make use of this function a few years back, but was dropped and forgotten about. Unless you are looking to puts to the console, I can&rsquo;t think of a valid way to use this feature.</li>
-</ul>
-
-
-<p>Hopefully, this post will increase .zip awareness: a very useful function, obviously to honor the mighty Akron Zips.</p>
-
-<p style="text-align:center;"><img src="http://assets.sbnation.com/assets/163084/AkronZipsLogo.jpg" title="Akron Zips Logo" alt="zips" /></p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/08/newbie-developer/">Newbie Developer, Ex-Scientist?</a></h1>
-    
-    
-      <p class="meta">
-        
 
 
 
@@ -641,124 +501,38 @@
   
 
 
-<time datetime="2015-06-08T19:34:19-04:00" pubdate data-updated="true"></time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content"><h2>From biology to coding</h2>
-
-<p>I&rsquo;ve traded in my microscopes for a keyboard. After a number of years pursuing a career in cellular biology, I&rsquo;ve put down the pipettes and decided to really, honestly learn how to write code.</p>
-
-<p>This blog will be about the struggle to learn new computer languages, find out how to use them and life lessons I learn along the way. I won&rsquo;t frequently comment on leaving <a href="http://www.howtoleaveacademia.com/" title="This is a great resource">academia</a>, but my perspective, learning habits and style have all been shaped by that environment.</p>
-
-<p>Jumping out of academia is quite frightening. That universal, cellular process you were an expert on? That&rsquo;s suddenly just as esoteric as astrobiology to most people. Chatting about cell polarity to non-biologists has induced a panic-induced desire to run the nearest research university. Really, what am I left with?</p>
-
-<p>It turns out that studying signal tranduction, gene regulation and mutant phenotypes isn&rsquo;t terribly different from learning how to write, manipulate and refactor code. Evolution has provided our cells with (typically) elegant mechanisms for processing information, communicating data between simple machines and providing feedback on actions. Elegant code (typically) isn&rsquo;t that different. While learning a new coding language is a struggle, it is fun for a biologist to tinker around with: you can think of it like a simple organism.</p>
-
-<h3>Code: not unlike a biological system</h3>
-
-<h4>Looping</h4>
-
-<p>A major principle in gene regulation is the logic behind feedback loops. Understanding how systems respond to, and attenuate, both transient and continuous information is a huge field of research. Below is a cartoon (from Paul Hardin&rsquo;s lab) of a feedback loop in circadian rhythm biology, containing both positive and negative information.</p>
-
-<p><img src="http://www.bio.tamu.edu/USERS/phardin/images/Fig3-InterlockedFBLs.jpg" alt="feedback" /></p>
-
-<p>Pretty complicated, but if you&rsquo;ve ever studied this sort of regulation, or sat through a seminar, you know it&rsquo;s not impossible to sort out.</p>
-
-<p>Code, for some reason, is viewed as magic, or a black box, but it&rsquo;s simpler to figure out than the PERIOD and CLOCK mess above.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>def countdown(seconds)  
-</span><span class='line'>  while seconds &gt; 0  
-</span><span class='line'>    puts "#{seconds} SECOND(S)!"  
-</span><span class='line'>    seconds -= 1  
-</span><span class='line'>  end  
-</span><span class='line'>  "0 left. HAPPY NEW YEAR!"  
-</span><span class='line'>end
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>The above Ruby code takes in an argument &ldquo;seconds&rdquo; as a number and counts down in a stepwise fashion. Once it hits zero, it&rsquo;s a happy new year. Code can be simple, understandable, and nowhere near as complex as circadian rhythms.</p>
-
-<h4>The single responsbility principle</h4>
-
-<p>In code, one method should do one thing only. This is called the &ldquo;Single Repsonbility Principle&rdquo;. Programs frequently have a method, called a runner, that runs all the methods. While genes are frequently pleiotropic, they usually act in concert with others to manage cellular activity. What typically unites genes of similar ontologies? Master regulators, which aren&rsquo;t all that unlike runner methods.</p>
-
-<p>Evolution usually favors simplicity. Code does too.</p>
-
-<h4>Breaking it: the phenotypes</h4>
-
-<p>I love to break code. I get the feeling that many of my classmates at the Flatiron School do not feel the same way. Granted, most of the population does not enjoy seeing error messages like the one below.</p>
-
-<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-</pre></td><td class='code'><pre><code class=''><span class='line'>countdown.rb:18: syntax error, unexpected end-of-input, expecting keyword_end
-</span></code></pre></td></tr></table></div></figure>
-
-
-<p>
-Biologists sometimes spend years trying to introduce mutations into the genomes of model organisms, thereby breaking their systems. The field of biology is principally one that studies what happens when small wrenches are thrown into the inner workings of life. To get to play with systems so quickly, to see what is necessary for structure, what is superfluous or vestigal, and what surprisingly works is really fun. You can get errors back in milliseconds vs years.</p>
-
-<h3>Computer vs. the lab bench</h3>
-
-<p>If you think about systems analytically, biological systems aren&rsquo;t too dissimilar from those written by programmers. The analytically skills biologists acquire can be helpful in understanding all of this. As I continue to learn how to develop, I hope to explore, uncover and share some more similarities.</p>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
+<time datetime="2015-07-01T19:40:56-04:00" pubdate data-updated="true"></time>
       
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2015/06/02/my-first-post-on-octopress/">My First Post on Octopress</a></h1>
-    
-    
-      <p class="meta">
-        
 
-
-
-
-
-
-
-
+<span class="categories">
   
+    <a class='category' href='/blog/categories/flatiron/'>flatiron,</a>, <a class='category' href='/blog/categories/school/'>school</a>
+  
+</span>
 
 
-<time datetime="2015-06-02T09:14:54-04:00" pubdate data-updated="true"></time>
-        
-      </p>
+    </p>
     
-  </header>
-
-
-  <div class="entry-content"><p>&ldquo;Hello, world.&rdquo;</p>
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://gosborn.github.io/blog/2015/07/01/start-using-pry/" data-via="" data-counturl="http://gosborn.github.io/blog/2015/07/01/start-using-pry/" >Tweet</a>
+  
+  
+  
 </div>
-  
-  
 
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2015/06/18/arranging-arrays/" title="Previous Post: The .zip method">&laquo; The .zip method</a>
+      
+      
+    </p>
+  </footer>
+</article>
 
-    </article>
-  
-  <div class="pagination">
-    
-    <a href="/blog/archives">Blog Archives</a>
-    
-  </div>
 </div>
+
 
     </div>
   </div>

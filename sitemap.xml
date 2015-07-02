@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>http://gosborn.github.io/blog/2015/07/01/start-using-pry/</loc>
+    <lastmod>2015-07-01T19:40:56-04:00</lastmod>
+  </url>
+  <url>
     <loc>http://gosborn.github.io/blog/2015/06/18/arranging-arrays/</loc>
     <lastmod>2015-06-18T19:48:54-04:00</lastmod>
   </url>
@@ -26,5 +30,8 @@
   </url>
   <url>
     <loc>http://gosborn.github.io/blog/categories/school/</loc>
+  </url>
+  <url>
+    <loc>http://gosborn.github.io/blog/categories/flatiron/</loc>
   </url>
 </urlset>

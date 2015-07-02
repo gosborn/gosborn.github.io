@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
 
-  <title><![CDATA[Category: flatiron | Greg Osborn]]></title>
+  <title><![CDATA[Category: flatiron, | Greg Osborn]]></title>
   <link href="http://gosborn.github.io/blog/categories/flatiron/atom.xml" rel="self"/>
   <link href="http://gosborn.github.io/"/>
-  <updated>2015-06-18T21:32:17-04:00</updated>
+  <updated>2015-07-01T22:39:28-04:00</updated>
   <id>http://gosborn.github.io/</id>
   <author>
     <name><![CDATA[Greg Osborn]]></name>
@@ -14,152 +14,259 @@
 
   
   <entry>
-    <title type="html"><![CDATA[The .zip method]]></title>
-    <link href="http://gosborn.github.io/blog/2015/06/18/arranging-arrays/"/>
-    <updated>2015-06-18T19:48:54-04:00</updated>
-    <id>http://gosborn.github.io/blog/2015/06/18/arranging-arrays</id>
-    <content type="html"><![CDATA[<p style="text-align:center;"><img src="http://www.cayzu.com/wp-content/uploads/zipper-1030x360.jpg" title="zipper" alt="zips" /></p>
+    <title type="html"><![CDATA[Start using Pry!]]></title>
+    <link href="http://gosborn.github.io/blog/2015/07/01/start-using-pry/"/>
+    <updated>2015-07-01T19:40:56-04:00</updated>
+    <id>http://gosborn.github.io/blog/2015/07/01/start-using-pry</id>
+    <content type="html"><![CDATA[<h2>Tips for using Pry</h2>
 
-<p>Uggh, the time I&rsquo;ve wasted trying to google this method.</p>
+<p><img src="https://camo.githubusercontent.com/c26ae0f28a595b15dc4d135fdcc113366f811853/68747470733a2f2f646c2e64726f70626f782e636f6d2f752f32363532313837352f70727925323073747566662f6c6f676f2f7072795f6c6f676f5f3335302e706e67" alt="pry_image" /></p>
 
-<p><em>&ldquo;ruby how to add two arrays into one array and have order switch?&rdquo;</em></p>
+<p>In the past, I&rsquo;ve used REPLs like IRB or <a href="http://repl.it">repl.it</a> to play around with Ruby. Pry adds on tons of functionality and has been my go-to REPL ever since diving into the documentation (on a pretty shallow level, I&rsquo;ll admit). It takes a little bit of getting used to, but just liking learning a manual transmission, it&rsquo;s tough to go back once you get the hang of it.</p>
 
-<p><em>&ldquo;How to combine two arrays in an interwoven fashion? ruby&rdquo;</em></p>
+<p>Below, I&rsquo;ll describe some of my favorite features and some resources for further reading.</p>
 
-<p><em>&ldquo;how to shuffle two arrays in order and get one back ruby&rdquo;</em></p>
+<h2>Pry Features</h2>
 
-<p><em>etc. etc.</em></p>
-
-<p>Once you remember its name, you have a pretty good idea of what .zip does. But personally, it&rsquo;s tough for me to keep the name in working memory, perhaps because .zip lives all the way at the bottom of the <a href="http://ruby-doc.org/core-2.2.2/Enumerable.html">Ruby Ennumerable documentation</a>.</p>
-
-<p>Maybe .zip is tough to google because it&rsquo;s so much easier to show its functionality than describe it with words.</p>
-
-<pre><code class="ruby">array_1 = ["a", "b", "c"]
-array_2 = [1, 2, 3]
-array_1.zip(array_2) #=&gt; [["a", 1], ["b", 2], [c, "3"]]
-</code></pre>
-
-<p>Calling .zip on an array, while passing in another array as an argument, results in a new array composed of:</p>
-
-<p> <strong>[[array_1[0], array_2[0]],  [array_1[1], array_2[1]],  [array_1[2], array_2_[2]]</strong></p>
-
-<p>The two arrays are now interwoven or shuffled or mixed in order, in a nested array&hellip;I guess zippered is the best terminology here. Even the Ruby documentation is a little vague:</p>
-
-<blockquote><p>Takes one element from enum and merges corresponding elements from each args. This generates a sequence of n-element arrays, where n is one more than the count of arguments.</p></blockquote>
-
-<p>I find myself using .zip from time to time, so its important to remember a couple of things.</p>
+<p>Pry adds in many features to the REPL environment.</p>
 
 <ul>
-<li><strong>It returns a nested array.</strong> If 2D isn&rsquo;t your thing, .flatten.</li>
-<li><strong>It returns a nested array with elements equal to the length of the first array.</strong>
+<li>You can set <strong>breakpoints</strong> in code with runtime invocation.
 
 <ul>
-<li>If your second array is longer than the first, those extra values will not be included in the output.</li>
-<li>But if it&rsquo;s the other way around, your second array is shorter, you&rsquo;ll get nil values to make up the difference. Example:
-<code>ruby
-a = [1,2,3]  
-b = [101,102,103,104]  
-a.zip(b) #=&gt; [[1, 101], [2, 102], [3, 103]]
-b.zip(a) #=&gt; [[101, 1], [102, 2], [103, 3], [104, nil]]
-</code></li>
+<li>I won&rsquo;t discuss this as most people are introduced to Pry via this utility to debug code.</li>
 </ul>
 </li>
-<li><strong>The .zip function can work on more than two arrays:</strong></li>
-</ul>
-
-
-<pre><code class="ruby">a = [1,2,3,4]  
-b = [10,11,12,13]
-c = ["a", "b", "c", "d"] 
-a.zip(b,c) #=&gt; [[1, 10, "a"], [2, 11, "b"], [3, 12, "c"], [4, 13, "d"]] 
-</code></pre>
+<li>You can get <strong>help</strong> on the fly
 
 <ul>
-<li><strong>.zip can be used to easily create a hash</strong> if your keys and values are in matching arrays:</li>
+<li><strong>Pry-docs</strong> and source code browsing will eliminate some trips to Google and the Ruby documentation: docs are provided in Pry</li>
+<li>Tools are provided to <strong>trace errors</strong></li>
 </ul>
-
-
-<pre><code class="ruby">key_array = ["key1", "key2", "key3"]
-value_array = ["value1", "value2", "value3"]
-Hash[key_array.zip(value_array)] #=&gt; {"key1"=&gt;"value1", "key2"=&gt;"value2", "key3"=&gt;"value3"} 
-</code></pre>
+</li>
+<li>You can easily travel around your code
 
 <ul>
-<li><strong>Also, .zip does take a block, but return an unconditional nil.</strong> There was <a href="https://bugs.ruby-lang.org/issues/5044">talk</a> of changing this, or adding a .zip_with feature, to make use of this function a few years back, but was dropped and forgotten about. Unless you are looking to puts to the console, I can&rsquo;t think of a valid way to use this feature.</li>
+<li>Pry provides tools (not unlike your BASH console) that allow you to <strong>travel in and out of environments</strong> to view local variables and methods</li>
+<li>Pry also provides tools that <strong>interact with BASH</strong></li>
+<li>Pry also allows you to <strong>travel through time</strong> by replaying your history</li>
+</ul>
+</li>
+<li>Many <strong>plugins</strong> interact with Pry, allowing additional functionality</li>
 </ul>
 
 
-<p>Hopefully, this post will increase .zip awareness: a very useful function, obviously to honor the mighty Akron Zips.</p>
+<h3>Moving in and out of environments, in Ruby and BASH</h3>
 
-<p style="text-align:center;"><img src="http://assets.sbnation.com/assets/163084/AkronZipsLogo.jpg" title="Akron Zips Logo" alt="zips" /></p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[Newbie Developer, Ex-Scientist?]]></title>
-    <link href="http://gosborn.github.io/blog/2015/06/08/newbie-developer/"/>
-    <updated>2015-06-08T19:34:19-04:00</updated>
-    <id>http://gosborn.github.io/blog/2015/06/08/newbie-developer</id>
-    <content type="html"><![CDATA[<h2>From biology to coding</h2>
+<p>In pry, cd and ls act in a way similar to the cd and ls commands in BASH. cd allows you to change environments. Below, I used cd to move into the environment of my array. The console tells us this by changing the prompt to include #<Array>.</p>
 
-<p>I&rsquo;ve traded in my microscopes for a keyboard. After a number of years pursuing a career in cellular biology, I&rsquo;ve put down the pipettes and decided to really, honestly learn how to write code.</p>
+<pre><code>// ♥ pry
+[1] pry(main)&gt; arr = Array.new
+=&gt; []
+[2] pry(main)&gt; cd arr
+[3] pry(#&lt;Array&gt;):1&gt; 
+</code></pre>
 
-<p>This blog will be about the struggle to learn new computer languages, find out how to use them and life lessons I learn along the way. I won&rsquo;t frequently comment on leaving <a href="http://www.howtoleaveacademia.com/" title="This is a great resource">academia</a>, but my perspective, learning habits and style have all been shaped by that environment.</p>
+<p>Now that I&rsquo;m in an array, I can use ls to see what is available to me.</p>
 
-<p>Jumping out of academia is quite frightening. That universal, cellular process you were an expert on? That&rsquo;s suddenly just as esoteric as astrobiology to most people. Chatting about cell polarity to non-biologists has induced a panic-induced desire to run the nearest research university. Really, what am I left with?</p>
+<pre><code>4] pry(#&lt;Array&gt;):1&gt; ls
+Enumerable#methods: 
+  all?            each_slice        flat_map  max_by     none?         slice_when
+  chunk           each_with_index   grep      member?    one?          sort_by   
+  collect_concat  each_with_object  group_by  min        partition   
+  detect          entries           inject    min_by     reduce      
+  each_cons       find              lazy      minmax     slice_after 
+  each_entry      find_all          max       minmax_by  slice_before
+Columnize#methods: columnize  columnize_opts  columnize_opts=
+Array#methods: 
+  &amp;         combination  fill        map!                  reverse!      sort!     
+  *         compact      find_index  pack                  reverse_each  sort_by!  
+  +         compact!     first       permutation           rindex        take      
+  -         concat       flatten     place                 rotate        take_while
+  &lt;&lt;        count        flatten!    pop                   rotate!       to_a      
+  &lt;=&gt;       cycle        frozen?     pretty_print          sample        to_ary    
+  ==        delete       hash        pretty_print_cycle    select        to_h      
+  []        delete_at    include?    product               select!       to_s      
+  []=       delete_if    index       push                  shelljoin     transpose 
+  any?      drop         insert      rassoc                shift         uniq      
+  assoc     drop_while   inspect     reject                shuffle       uniq!     
+  at        each         join        reject!               shuffle!      unshift   
+  bsearch   each_index   keep_if     repeated_combination  size          values_at 
+  clear     empty?       last        repeated_permutation  slice         zip       
+  collect   eql?         length      replace               slice!        |         
+  collect!  fetch        map         reverse               sort        
+self.methods: __pry__
+locals: _  __  _dir_  _ex_  _file_  _in_  _out_  _pry_
+</code></pre>
 
-<p>It turns out that studying signal tranduction, gene regulation and mutant phenotypes isn&rsquo;t terribly different from learning how to write, manipulate and refactor code. Evolution has provided our cells with (typically) elegant mechanisms for processing information, communicating data between simple machines and providing feedback on actions. Elegant code (typically) isn&rsquo;t that different. While learning a new coding language is a struggle, it is fun for a biologist to tinker around with: you can think of it like a simple organism.</p>
+<p>ls will show you which methods, constants and variables are accessible to that environment. Use:</p>
 
-<h3>Code: not unlike a biological system</h3>
+<ul>
+<li>ls -m; for local methods</li>
+<li>ls -l; for local variables</li>
+<li>ls -c; for constants</li>
+<li>ls -G to search for paramters by name (or partial name)</li>
+</ul>
 
-<h4>Looping</h4>
 
-<p>A major principle in gene regulation is the logic behind feedback loops. Understanding how systems respond to, and attenuate, both transient and continuous information is a huge field of research. Below is a cartoon (from Paul Hardin&rsquo;s lab) of a feedback loop in circadian rhythm biology, containing both positive and negative information.</p>
+<p>With Pry-docs installed (gem install pry-docs), you can get info on how any method is used. While still in the array environment:</p>
 
-<p><img src="http://www.bio.tamu.edu/USERS/phardin/images/Fig3-InterlockedFBLs.jpg" alt="feedback" /></p>
+<pre><code>[13] pry(#&lt;Array&gt;):1&gt; ? self.map
 
-<p>Pretty complicated, but if you&rsquo;ve ever studied this sort of regulation, or sat through a seminar, you know it&rsquo;s not impossible to sort out.</p>
+From: array.c (C Method):
+Owner: Array
+Visibility: public
+Signature: map()
+Number of lines: 12
 
-<p>Code, for some reason, is viewed as magic, or a black box, but it&rsquo;s simpler to figure out than the PERIOD and CLOCK mess above.</p>
+Invokes the given block once for each element of self.
 
-<pre><code class="">def countdown(seconds)  
-  while seconds &gt; 0  
-    puts "#{seconds} SECOND(S)!"  
-    seconds -= 1  
-  end  
-  "0 left. HAPPY NEW YEAR!"  
+Creates a new array containing the values returned by the block.
+
+See also Enumerable#collect.
+
+If no block is given, an Enumerator is returned instead.
+
+   a = [ "a", "b", "c", "d" ]
+   a.collect { |x| x + "!" }        #=&gt; ["a!", "b!", "c!", "d!"]
+   a.map.with_index{ |x, i| x * i } #=&gt; ["", "b", "cc", "ddd"]
+   a                                #=&gt; ["a", "b", "c", "d"]
+</code></pre>
+
+<p>Using ? (show-doc is an alias) and .map (using self, an array in this case, as the receiver) returns the Ruby Documentation in the console! No more searching through Google.</p>
+
+<p>Just like in BASH, cd .. goes up an environment, towards main.</p>
+
+<h3>Examples with a method</h3>
+
+<p>Below, I&rsquo;ve created a Dog class, which will return &ldquo;wooooof&rdquo; when bark is called on an instance of the class.</p>
+
+<p>show-source allows the user to look back on the code contained within Dog, very helpful while debugging a larger file, especially while using binding.pry.</p>
+
+<p>Also, observe how one can cd into and instance of the Dog classto see and call its methods.</p>
+
+<pre><code>[17] pry(main)&gt; class Dog
+[17] pry(main)*   def bark
+[17] pry(main)*     "woooooof"
+[17] pry(main)*   end  
+[17] pry(main)* end  
+=&gt; :bark
+[18] pry(main)&gt; doggie = Dog.new
+=&gt; #&lt;Dog:0x007fddff9fadc8&gt;
+[19] pry(main)&gt; show-source Dog
+
+From: (pry) @ line 6:
+Class name: Dog
+Number of lines: 5
+
+class Dog
+  def bark
+    "woooooof"
+  end
 end
+[20] pry(main)&gt; cd doggie
+[21] pry(#&lt;Dog&gt;):1&gt; bark
+=&gt; "woooooof"
+[22] pry(#&lt;Dog&gt;):1&gt; ls
+Dog#methods: bark
+self.methods: __pry__
+locals: _  __  _dir_  _ex_  _file_  _in_  _out_  _pry_
 </code></pre>
 
-<p>The above Ruby code takes in an argument &ldquo;seconds&rdquo; as a number and counts down in a stepwise fashion. Once it hits zero, it&rsquo;s a happy new year. Code can be simple, understandable, and nowhere near as complex as circadian rhythms.</p>
+<h3>BASH manipulation</h3>
 
-<h4>The single responsbility principle</h4>
+<p>Pry can also interact with BASH. Adding . before any BASH command while running pry will allow you to send those commands to BASH. You can switch directories, list content, even cowsay, all easily through Pry.</p>
 
-<p>In code, one method should do one thing only. This is called the &ldquo;Single Repsonbility Principle&rdquo;. Programs frequently have a method, called a runner, that runs all the methods. While genes are frequently pleiotropic, they usually act in concert with others to manage cellular activity. What typically unites genes of similar ontologies? Master regulators, which aren&rsquo;t all that unlike runner methods.</p>
-
-<p>Evolution usually favors simplicity. Code does too.</p>
-
-<h4>Breaking it: the phenotypes</h4>
-
-<p>I love to break code. I get the feeling that many of my classmates at the Flatiron School do not feel the same way. Granted, most of the population does not enjoy seeing error messages like the one below.</p>
-
-<pre><code>countdown.rb:18: syntax error, unexpected end-of-input, expecting keyword_end
+<pre><code>[36] pry(#&lt;Dog&gt;):1&gt; .cd dev
+[37] pry(#&lt;Dog&gt;):1&gt; .pwd
+/Users/geo/dev
+[38] pry(#&lt;Dog&gt;):1&gt; .cowsay take me home
+ ______________ 
+&lt; take me home &gt;
+ -------------- 
+        \   ^__^
+         \  (oo)\_______
+            (__)\       )\/\
+                ||----w |
+                ||     ||
+[39] pry(#&lt;Dog&gt;):1&gt; .cd ~
+[40] pry(#&lt;Dog&gt;):1&gt; .pwd
+/Users/geo
+[41] pry(#&lt;Dog&gt;):1&gt; 
 </code></pre>
 
-<p>Biologists sometimes spend years trying to introduce mutations into the genomes of model organisms, thereby breaking their systems. The field of biology is principally one that studies what happens when small wrenches are thrown into the inner workings of life. To get to play with systems so quickly, to see what is necessary for structure, what is superfluous or vestigal, and what surprisingly works is really fun. You can get errors back in milliseconds vs years.</p>
+<h3>Tracing errors in code</h3>
 
-<h3>Computer vs. the lab bench</h3>
+<p>Sometimes errors can be a little hard to trace. Here&rsquo;s a convoluted example where the error trickles down through multiple methods.</p>
 
-<p>If you think about systems analytically, biological systems aren&rsquo;t too dissimilar from those written by programmers. The analytically skills biologists acquire can be helpful in understanding all of this. As I continue to learn how to develop, I hope to explore, uncover and share some more similarities.</p>
-]]></content>
-  </entry>
-  
-  <entry>
-    <title type="html"><![CDATA[My First Post on Octopress]]></title>
-    <link href="http://gosborn.github.io/blog/2015/06/02/my-first-post-on-octopress/"/>
-    <updated>2015-06-02T09:14:54-04:00</updated>
-    <id>http://gosborn.github.io/blog/2015/06/02/my-first-post-on-octopress</id>
-    <content type="html"><![CDATA[<p>&ldquo;Hello, world.&rdquo;</p>
+<pre><code>[10] pry(main)&gt; def gonna_make_error(name)
+[10] pry(main)*   name.mistake
+[10] pry(main)* end  
+=&gt; :gonna_make_error
+[11] pry(main)&gt; def second_layer_error(name)
+[11] pry(main)*   gonna_make_error(name)
+[11] pry(main)* end  
+=&gt; :second_layer_error
+[12] pry(main)&gt; def third_layer_errof(name)
+[12] pry(main)*   second_layer_error(name)
+[12] pry(main)* end  
+=&gt; :third_layer_errof
+[13] pry(main)&gt; third_layer_errof("greg")
+NoMethodError: undefined method `mistake' for "greg":String
+from (pry):10:in `gonna_make_error'
+</code></pre>
+
+<p>Pry provides two cool tools: wtf? and cat &ndash;ex, to help identify the cause of errors in your code.</p>
+
+<p>wtf? allows you to display a few lines of backtrace for your most recent error.  Not too much different from receiving an error in ruby, but it proves developers have a sense of humor.</p>
+
+<pre><code>[14] pry(main)&gt; wtf?
+Exception: NoMethodError: undefined method `mistake' for "greg":String
+--
+0: (pry):10:in `gonna_make_error'
+1: (pry):13:in `second_layer_error'
+2: (pry):16:in `third_layer_errof'
+3: (pry):18:in `__pry__'
+4: /Users/geo/.rvm/gems/ruby-2.2.1/gems/pry-0.10.1/lib/pry/pry_instance.rb:355:in `eval'
+5: /Users/geo/.rvm/gems/ruby-2.2.1/gems/pry-0.10.1/lib/pry/pry_instance.rb:355:in `evaluate_ruby'
+6: /Users/geo/.rvm/gems/ruby-2.2.1/gems/pry-0.10.1/lib/pry/pry_instance.rb:323:in `handle_line'
+7: /Users/geo/.rvm/gems/ruby-2.2.1/gems/pry-0.10.1/lib/pry/pry_instance.rb:243:in `block (2 levels) in eval'
+8: /Users/geo/.rvm/gems/ruby-2.2.1/gems/pry-0.10.1/lib/pry/pry_instance.rb:242:in `catch'
+9: /Users/geo/.rvm/gems/ruby-2.2.1/gems/pry-0.10.1/lib/pry/pry_instance.rb:242:in `block in eval'
+</code></pre>
+
+<p>cat &ndash;ex allows you to see the actual code that caused the error, which can be really helpful for debugging and learning how to code, especially when navigating errors in sinatra.</p>
+
+<pre><code>[15] pry(main)&gt; cat --ex
+
+Exception: NoMethodError: undefined method `mistake' for "greg":String
+--
+From: (pry) @ line 10 @ level: 0 of backtrace (of 32).
+
+     5: def more_error(name)
+     6:   error(name)
+     7: end
+     8: more_error("greg")
+     9: def gonna_make_error(name)
+ =&gt; 10:   name.mistake
+    11: end
+    12: def second_layer_error(name)
+    13:   gonna_make_error(name)
+    14: end
+    15: def third_layer_errof(name)
+[16] pry(main)&gt; 
+</code></pre>
+
+<p>Additionally, hist allows you to see a history of all the commands you&rsquo;ve typed into Pry, to get more information as to how your code has broken.</p>
+
+<h3>Further Resources</h3>
+
+<p>Pry provides a ton more functionality, so I really suggest spending a little time reading the below resources.</p>
+
+<p><a href="http://pryrepl.org/">Pry Home Page</a><br/>
+<a href="https://github.com/pry/pry">Pry on Git</a><br/>
+<a href="https://github.com/pry/pry/wiki/Available-plugins">Pry Plugins</a><br/>
+<a href="http://www.danvisintainer.com/?p=5">PryBaby</a></p>
 ]]></content>
   </entry>
   
