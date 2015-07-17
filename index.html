@@ -9,7 +9,7 @@
   <meta name="author" content="Greg Osborn">
 
   
-  <meta name="description" content="Tips for using Pry In the past, I&rsquo;ve used REPLs like IRB or repl.it to play around with Ruby. Pry adds on tons of functionality and has been my &hellip;">
+  <meta name="description" content="Seeing Ruby throw an exception when you don&rsquo;t expect it can be pretty frusturating. At this point in my programming career, most of them are &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -62,6 +62,167 @@
     <div id="content">
       <div class="blog-index">
   
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2015/07/17/working-with-errors-in-ruby-catch-and-throw/">Working With Errors in Ruby: Begin, Rescue and Ensure</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2015-07-17T08:55:08-04:00" pubdate data-updated="true"></time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Seeing Ruby throw an exception when you don&rsquo;t expect it can be pretty frusturating. At this point in my programming career, most of them are user created. Ruby raises pretty specific exceptions and even a backtrace to figure out where you went wrong. Usually my protocol is to do find the error, figure out where my logic or typing went wrong and restart my program.</p>
+
+<p>But sometimes exceptions arise in your program and they&rsquo;re not your fault. Lately, I&rsquo;ve been working on a database of beer that is populated with information from an online database, <a href="http://www.brewerydb.com/">breweryDB</a>. To gather the info, I&rsquo;m getting JSON files from their API with a method like this:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def load_db_json(input)
+</span><span class='line'>  JSON.load(RestClient.get("http://api.brewerydb.com/v2/" + input)
+</span><span class='line'>end
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Specifically, I&rsquo;m downloading JSON files that provide me ids to find all the beers from a group of breweries.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def all_beers_from_brewery(brewery)
+</span><span class='line'>  load_db_json("brewery/#{brewery.db_code}/beers?key=#{@key}")["data"]
+</span><span class='line'>end
+</span><span class='line'>
+</span><span class='line'>@state.breweries.each do |brewery|
+</span><span class='line'>  if !all_beers_from_brewery(brewery).nil?
+</span><span class='line'>    all_beers_from_brewery(brewery).each do |hash|
+</span><span class='line'>      brewery.beers.build(name: hash["name"], db_code: hash["id"], abv: hash["abv"], ibu: hash["ibu"], description: hash["description"])
+</span><span class='line'>      brewery.save
+</span><span class='line'>    end
+</span><span class='line'>  end
+</span><span class='line'>end
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The above code uses the brewery ids to find the beers associated with it, and build ActiveRecord associated objects. But it doesn&rsquo;t always work.</p>
+
+<p>Sometimes the breweries will be missing from the database and so when I try to get a json from a missing page, I get a fun exception:</p>
+
+<p>RestClient::ResourceNotFound: 404 Resource Not Found</p>
+
+<p>And my program stops. Since I&rsquo;m iterating through a long list of breweries, this is super annoying, because no subsequent data will be entered into my database. This is where Ruby&rsquo;s catch, throw and ensure methods come in.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>begin
+</span><span class='line'>  a + a
+</span><span class='line'>rescue =&gt; e
+</span><span class='line'>  puts e
+</span><span class='line'>ensure
+</span><span class='line'>  puts "we'll be fine, regardless of what happens"
+</span><span class='line'>end
+</span><span class='line'>undefined local variable or method `a' for main:Object
+</span><span class='line'>we'll be fine, regardless of what happens
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If this code was just written as below, it would break, because a isn&rsquo;t defined.</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>a + a</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Using begin, rescue and ensure allows you to negotiate the error and keep moving. It&rsquo;s a little hacky to solve ordinary problems, but when working with large datasets that might fail because of errors in the members of the dataset, it can be super helpful.</p>
+
+<p>The above isn&rsquo;t super different than an if/else statement, except that the error is handled and the code continues. Here&rsquo;s how I use it in real life:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>def all_beers_from_brewery(brewery)
+</span><span class='line'>  begin
+</span><span class='line'>    load_db_json("brewery/#{brewery.db_code}/beers?key=#{@key}")["data"]
+</span><span class='line'>  rescue =&gt; error
+</span><span class='line'>    retry
+</span><span class='line'>    puts "#{error} for #{brewery.name}"
+</span><span class='line'>  end
+</span><span class='line'>end
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Now if I get an error iterating through my database with the below code, I don&rsquo;t break the operation, I just get an error message and move on with the parsing:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>@state.breweries.each do |brewery|
+</span><span class='line'>    all_beers_from_brewery(brewery).each do |hash|
+</span><span class='line'>      brewery.beers.build(name: hash["name"], db_code: hash["id"], abv: hash["abv"], ibu: hash["ibu"], description: hash["description"])
+</span><span class='line'>      brewery.save
+</span><span class='line'>    end
+</span><span class='line'>end
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Javascript and Python have very similar operations. Javascript uses &ldquo;try, throw and catch, finally&rdquo; and Python uses &ldquo;try, except and finally&rdquo;.</p>
+
+<p>Here are some resources to learn more:</p>
+
+<p><a href="http://ruby.bastardsbook.com/chapters/exception-handling/">Ruby Bastards: exception handling</a><br/>
+<a href="http://rubylearning.com/satishtalim/ruby_exceptions.html">Ruby Learning: exceptions</a><br/>
+<a href="https://blog.newrelic.com/2014/12/10/weird-ruby-2-rescue-interrupt-ensure/">Weird Ruby, rescue and interrupt</a><br/>
+<a href="https://rubymonk.com/learning/books/4-ruby-primer-ascent/chapters/41-exceptions/lessons/92-handling">Ruby Monk: handling exceptions</a><br/>
+<a href="http://www.jiaaro.com/pythonjavascript-trick-hacky-error-handling/">Exception handling in JS and Python</a></p>
+</div>
+  
+  
+
+
+    </article>
   
   
     <article>
