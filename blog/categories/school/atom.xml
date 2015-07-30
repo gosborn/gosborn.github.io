@@ -4,7 +4,7 @@
   <title><![CDATA[Category: school | Greg Osborn]]></title>
   <link href="http://gosborn.github.io/blog/categories/school/atom.xml" rel="self"/>
   <link href="http://gosborn.github.io/"/>
-  <updated>2015-07-17T09:24:58-04:00</updated>
+  <updated>2015-07-29T21:50:47-04:00</updated>
   <id>http://gosborn.github.io/</id>
   <author>
     <name><![CDATA[Greg Osborn]]></name>
@@ -12,6 +12,183 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Making cron jobs easy with whenever]]></title>
+    <link href="http://gosborn.github.io/blog/2015/07/29/making-cronjobs-easy-with-whenever/"/>
+    <updated>2015-07-29T20:37:20-04:00</updated>
+    <id>http://gosborn.github.io/blog/2015/07/29/making-cronjobs-easy-with-whenever</id>
+    <content type="html"><![CDATA[<h2>Cron</h2>
+
+<p>Scheduling tasks to happen at regular intervals is built into Unix systems with the <a href="https://en.wikipedia.org/wiki/Cron">cron</a> daemon. Cron runs as a background process to execute scheduled commands or shell scripts at fixed intervals or dates.</p>
+
+<p>Utilizing cron jobs to automate tasks in Rails is easy with the <a href="https://github.com/javan/whenever/tree/master">whenever</a> gem.</p>
+
+<h2>Using whenever</h2>
+
+<p>First, download the gem:</p>
+
+<pre><code>$ gem install whenever
+</code></pre>
+
+<p>Add it to your Gemfile:</p>
+
+<pre><code class="ruby">gem 'whenever', require: false
+</code></pre>
+
+<p>And bundle:</p>
+
+<pre><code>$ bundle
+</code></pre>
+
+<p>To start using whenever, run &lsquo;wheneverize&rsquo; in the project directory. This will add a schedule.rb file to your Rails project.</p>
+
+<pre><code>$ wheneverize .
+</code></pre>
+
+<p>The schedule.rb file allows you to define tasks in Ruby syntax that the whenever gem will add to your crontab to be automated by your local system.</p>
+
+<p>To play around with tasks with whenever, we&rsquo;ll add:</p>
+
+<pre><code class="ruby">set :environment, "development"
+</code></pre>
+
+<p>to the top of schedule.rb, so that our ruby tasks will run in the development environment (the default is set to run them in production only).</p>
+
+<p>The <a href="https://github.com/javan/whenever/tree/master">whenever</a> documentation on Github contains great examples of what can be written in schedule.rb. Ruby code, scripts and even shell commands can be used by the whenever gem to populate crontab with cronjobs.</p>
+
+<p>We&rsquo;ll start with running a simple shell command to understand how to interface with the whatever gem and cronjobs.</p>
+
+<p>In schedule.rb, add:</p>
+
+<pre><code class="ruby">every 1.minute do
+  command "echo 'hello from rails!!!'"
+end
+</code></pre>
+
+<p>When translated into a cron job, this will send you the message &ldquo;Hello from rails!!!&rdquo; once a minute (it won&rsquo;t be displayed in your console, it&rsquo;ll be sent to you as mail, so don&rsquo;t worry, it won&rsquo;t be too annoying).</p>
+
+<p>Back at the command line, in the directory of your rails project, type:</p>
+
+<pre><code>$ whenever
+</code></pre>
+
+<p>This should display output like this, translating your ruby into cron syntax. The <a href="https://en.wikipedia.org/wiki/Cron">cron</a> page on wikipedia has a great explanation of this.</p>
+
+<pre><code>$ whenever
+* * * * * /bin/bash -l -c 'echo '\''hello from rails!!!'
+
+## [message] Above is your schedule file converted to cron syntax; your crontab file was not updated.
+## [message] Run `whenever --help' for more options.
+</code></pre>
+
+<p>So now whenever knows about the tasks you want to become cron jobs. To place these into crontab, where they will be executed on a schedule, type:</p>
+
+<pre><code>$ whenever -w
+</code></pre>
+
+<p>This modifies crontab and writes your tasks. Our above task should start running! Wait about a minute&hellip;</p>
+
+<p>Maybe now is a good time to run:</p>
+
+<pre><code>$ crontab -l
+# Begin Whenever generated tasks for: /Users/geo/dev/pubfeed/config/schedule.rb
+* * * * * /bin/bash -l -c 'echo '\''hello from rails!!!'\'''
+
+# End Whenever generated tasks for: /Users/geo/dev/pubfeed/config/schedule.rb
+</code></pre>
+
+<p>That&rsquo;s cool, crontab did receive our jobs. Also how about:</p>
+
+<pre><code>$ whenever --help
+</code></pre>
+
+<p>It&rsquo;s a nice little help message. What version is it?</p>
+
+<pre><code>$ whenever -v
+Whenever v0.9.4
+You have new mail in /var/mail/geo
+</code></pre>
+
+<p>New mail? From where? Run <a href="http://heirloom.sourceforge.net/mailx/mailx.1.html#1">mailx</a> (the Unix mail processing system) to see what we received:</p>
+
+<pre><code>$ mailx
+Mail version 8.1 6/6/93.  Type ? for help.
+"/var/mail/geo": 36 messages 13 new 36 unread
+&gt;N 24 geo@MacBook-Pro.loca  Wed Jul 29 21:26  19/676   "Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c "
+ N 25 geo@MacBook-Pro.loca  Wed Jul 29 21:27  19/676   "Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c "
+ N 26 geo@MacBook-Pro.loca  Wed Jul 29 21:28  19/676   "Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c "
+ N 27 geo@MacBook-Pro.loca  Wed Jul 29 21:29  19/676   "Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c "
+ N 28 geo@MacBook-Pro.loca  Wed Jul 29 21:30  19/676   "Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c "
+ N 29 geo@MacBook-Pro.loca  Wed Jul 29 21:31  19/676   "Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c "
+ N 30 geo@MacBook-Pro.loca  Wed Jul 29 21:32  19/676   "Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c "
+ N 31 geo@MacBook-Pro.loca  Wed Jul 29 21:33  19/676   "Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c "
+ N 32 geo@MacBook-Pro.loca  Wed Jul 29 21:34  19/676   "Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c "
+ N 33 geo@MacBook-Pro.loca  Wed Jul 29 21:35  19/676   "Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c "
+ N 34 geo@MacBook-Pro.loca  Wed Jul 29 21:36  19/676   "Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c "
+ N 35 geo@MacBook-Pro.loca  Wed Jul 29 21:37  19/676   "Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c "
+ N 36 geo@MacBook-Pro.loca  Wed Jul 29 21:38  19/676   "Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c "
+</code></pre>
+
+<p>Woah. Where&rsquo;d all those come from? Cron! Let&rsquo;s open one:</p>
+
+<pre><code>? 36
+Message 36:
+From geo@MacBook-Pro.local  Wed Jul 29 21:38:00 2015
+X-Original-To: geo
+Delivered-To: geo@MacBook-Pro.local
+From: geo@MacBook-Pro.local (Cron Daemon)
+To: geo@MacBook-Pro.local
+Subject: Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c 'echo '\''hello from rails!!!'\'''
+X-Cron-Env: &lt;SHELL=/bin/sh&gt;
+X-Cron-Env: &lt;PATH=/usr/bin:/bin&gt;
+X-Cron-Env: &lt;LOGNAME=geo&gt;
+X-Cron-Env: &lt;USER=geo&gt;
+X-Cron-Env: &lt;HOME=/Users/geo&gt;
+Date: Wed, 29 Jul 2015 21:38:00 -0400 (EDT)
+
+hello from rails!!!
+</code></pre>
+
+<p>It worked! Now let&rsquo;s shut it down. It&rsquo;s simple with whenever.</p>
+
+<pre><code>$ whenever -c
+</code></pre>
+
+<p>This will clear whenever-based cron jobs from crontab.</p>
+
+<pre><code>$ crontab -l 
+</code></pre>
+
+<p>Crontab is now empty: we won&rsquo;t get any more messages.</p>
+
+<p>That&rsquo;s the whenever workflow. Adding ruby is super easy. Here&rsquo;s an example of code in schedule.rb that manages a database, fetches data from an API and sends email:</p>
+
+<pre><code class="ruby">every 1.day :at =&gt; '2:30 am' do
+  runner 'EmailAutomator.clean_and_send'
+end
+</code></pre>
+
+<pre><code class="ruby">class EmailAutomator
+
+  def self.clean_and_send
+    Article.destroy_all
+    User.all.each do |user|
+      user.keywords.each do |keyword|
+        keyword.get_all_recent_abstracts(user)
+      end
+      UserMailer.daily_result_email(user).deliver_now
+    end
+  end
+
+end
+</code></pre>
+
+<p>As a note, cron jobs are handled by UNIX, not your Rails application. You don&rsquo;t need a server running for these jobs to complete.</p>
+
+<p>That&rsquo;s pretty much it. Whenever provides an easy to understand syntax and simple methods for scheduling simple to complex jobs in Ruby applications.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Start using Pry!]]></title>

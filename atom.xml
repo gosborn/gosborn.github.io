@@ -4,7 +4,7 @@
   <title><![CDATA[Greg Osborn]]></title>
   <link href="http://gosborn.github.io/atom.xml" rel="self"/>
   <link href="http://gosborn.github.io/"/>
-  <updated>2015-07-17T09:24:58-04:00</updated>
+  <updated>2015-07-29T21:50:47-04:00</updated>
   <id>http://gosborn.github.io/</id>
   <author>
     <name><![CDATA[Greg Osborn]]></name>
@@ -12,6 +12,276 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Making cron jobs easy with whenever]]></title>
+    <link href="http://gosborn.github.io/blog/2015/07/29/making-cronjobs-easy-with-whenever/"/>
+    <updated>2015-07-29T20:37:20-04:00</updated>
+    <id>http://gosborn.github.io/blog/2015/07/29/making-cronjobs-easy-with-whenever</id>
+    <content type="html"><![CDATA[<h2>Cron</h2>
+
+<p>Scheduling tasks to happen at regular intervals is built into Unix systems with the <a href="https://en.wikipedia.org/wiki/Cron">cron</a> daemon. Cron runs as a background process to execute scheduled commands or shell scripts at fixed intervals or dates.</p>
+
+<p>Utilizing cron jobs to automate tasks in Rails is easy with the <a href="https://github.com/javan/whenever/tree/master">whenever</a> gem.</p>
+
+<h2>Using whenever</h2>
+
+<p>First, download the gem:</p>
+
+<figure class='code'><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class=''><span class='line'>$ gem install whenever</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Add it to your Gemfile:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">gem</span> <span class="s1">&#39;whenever&#39;</span><span class="p">,</span> <span class="nb">require</span><span class="p">:</span> <span class="kp">false</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>And bundle:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">bundle</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To start using whenever, run &lsquo;wheneverize&rsquo; in the project directory. This will add a schedule.rb file to your Rails project.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">wheneverize</span> <span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>The schedule.rb file allows you to define tasks in Ruby syntax that the whenever gem will add to your crontab to be automated by your local system.</p>
+
+<p>To play around with tasks with whenever, we&rsquo;ll add:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">set</span> <span class="ss">:environment</span><span class="p">,</span> <span class="s2">&quot;development&quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>to the top of schedule.rb, so that our ruby tasks will run in the development environment (the default is set to run them in production only).</p>
+
+<p>The <a href="https://github.com/javan/whenever/tree/master">whenever</a> documentation on Github contains great examples of what can be written in schedule.rb. Ruby code, scripts and even shell commands can be used by the whenever gem to populate crontab with cronjobs.</p>
+
+<p>We&rsquo;ll start with running a simple shell command to understand how to interface with the whatever gem and cronjobs.</p>
+
+<p>In schedule.rb, add:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">every</span> <span class="mi">1</span><span class="o">.</span><span class="n">minute</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">command</span> <span class="s2">&quot;echo &#39;hello from rails!!!&#39;&quot;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>When translated into a cron job, this will send you the message &ldquo;Hello from rails!!!&rdquo; once a minute (it won&rsquo;t be displayed in your console, it&rsquo;ll be sent to you as mail, so don&rsquo;t worry, it won&rsquo;t be too annoying).</p>
+
+<p>Back at the command line, in the directory of your rails project, type:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">whenever</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This should display output like this, translating your ruby into cron syntax. The <a href="https://en.wikipedia.org/wiki/Cron">cron</a> page on wikipedia has a great explanation of this.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">whenever</span>
+</span><span class='line'><span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="sr">/bin/</span><span class="n">bash</span> <span class="o">-</span><span class="n">l</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;echo &#39;</span><span class="p">\</span><span class="s1">&#39;&#39;</span><span class="n">hello</span> <span class="n">from</span> <span class="n">rails!</span><span class="o">!!</span><span class="s1">&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="s1">## [message] Above is your schedule file converted to cron syntax; your crontab file was not updated.</span>
+</span><span class='line'><span class="s1">## [message] Run `whenever --help&#39;</span> <span class="k">for</span> <span class="n">more</span> <span class="n">options</span><span class="o">.</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>So now whenever knows about the tasks you want to become cron jobs. To place these into crontab, where they will be executed on a schedule, type:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">whenever</span> <span class="o">-</span><span class="n">w</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This modifies crontab and writes your tasks. Our above task should start running! Wait about a minute&hellip;</p>
+
+<p>Maybe now is a good time to run:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">crontab</span> <span class="o">-</span><span class="n">l</span>
+</span><span class='line'><span class="c1"># Begin Whenever generated tasks for: /Users/geo/dev/pubfeed/config/schedule.rb</span>
+</span><span class='line'><span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="o">*</span> <span class="sr">/bin/</span><span class="n">bash</span> <span class="o">-</span><span class="n">l</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;echo &#39;</span><span class="p">\</span><span class="s1">&#39;&#39;</span><span class="n">hello</span> <span class="n">from</span> <span class="n">rails!</span><span class="o">!!</span><span class="s1">&#39;\&#39;&#39;</span><span class="err">&#39;</span>
+</span><span class='line'>
+</span><span class='line'><span class="c1"># End Whenever generated tasks for: /Users/geo/dev/pubfeed/config/schedule.rb</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>That&rsquo;s cool, crontab did receive our jobs. Also how about:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">whenever</span> <span class="o">--</span><span class="n">help</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It&rsquo;s a nice little help message. What version is it?</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">whenever</span> <span class="o">-</span><span class="n">v</span>
+</span><span class='line'><span class="no">Whenever</span> <span class="n">v0</span><span class="o">.</span><span class="mi">9</span><span class="o">.</span><span class="mi">4</span>
+</span><span class='line'><span class="no">You</span> <span class="n">have</span> <span class="kp">new</span> <span class="n">mail</span> <span class="k">in</span> <span class="sr">/var/m</span><span class="n">ail</span><span class="o">/</span><span class="n">geo</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>New mail? From where? Run <a href="http://heirloom.sourceforge.net/mailx/mailx.1.html#1">mailx</a> (the Unix mail processing system) to see what we received:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">mailx</span>
+</span><span class='line'><span class="no">Mail</span> <span class="n">version</span> <span class="mi">8</span><span class="o">.</span><span class="mi">1</span> <span class="mi">6</span><span class="o">/</span><span class="mi">6</span><span class="o">/</span><span class="mi">93</span><span class="o">.</span>  <span class="no">Type</span> <span class="p">?</span> <span class="k">for</span> <span class="n">help</span><span class="o">.</span>
+</span><span class='line'><span class="s2">&quot;/var/mail/geo&quot;</span><span class="p">:</span> <span class="mi">36</span> <span class="n">messages</span> <span class="mi">13</span> <span class="kp">new</span> <span class="mi">36</span> <span class="n">unread</span>
+</span><span class='line'><span class="o">&gt;</span><span class="n">N</span> <span class="mi">24</span> <span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">.</span><span class="n">loca</span>  <span class="no">Wed</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">21</span><span class="p">:</span><span class="mi">26</span>  <span class="mi">19</span><span class="o">/</span><span class="mi">676</span>   <span class="s2">&quot;Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c &quot;</span>
+</span><span class='line'> <span class="n">N</span> <span class="mi">25</span> <span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">.</span><span class="n">loca</span>  <span class="no">Wed</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">21</span><span class="p">:</span><span class="mi">27</span>  <span class="mi">19</span><span class="o">/</span><span class="mi">676</span>   <span class="s2">&quot;Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c &quot;</span>
+</span><span class='line'> <span class="n">N</span> <span class="mi">26</span> <span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">.</span><span class="n">loca</span>  <span class="no">Wed</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">21</span><span class="p">:</span><span class="mi">28</span>  <span class="mi">19</span><span class="o">/</span><span class="mi">676</span>   <span class="s2">&quot;Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c &quot;</span>
+</span><span class='line'> <span class="n">N</span> <span class="mi">27</span> <span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">.</span><span class="n">loca</span>  <span class="no">Wed</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">21</span><span class="p">:</span><span class="mi">29</span>  <span class="mi">19</span><span class="o">/</span><span class="mi">676</span>   <span class="s2">&quot;Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c &quot;</span>
+</span><span class='line'> <span class="n">N</span> <span class="mi">28</span> <span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">.</span><span class="n">loca</span>  <span class="no">Wed</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">21</span><span class="p">:</span><span class="mi">30</span>  <span class="mi">19</span><span class="o">/</span><span class="mi">676</span>   <span class="s2">&quot;Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c &quot;</span>
+</span><span class='line'> <span class="n">N</span> <span class="mi">29</span> <span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">.</span><span class="n">loca</span>  <span class="no">Wed</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">21</span><span class="p">:</span><span class="mi">31</span>  <span class="mi">19</span><span class="o">/</span><span class="mi">676</span>   <span class="s2">&quot;Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c &quot;</span>
+</span><span class='line'> <span class="n">N</span> <span class="mi">30</span> <span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">.</span><span class="n">loca</span>  <span class="no">Wed</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">21</span><span class="p">:</span><span class="mi">32</span>  <span class="mi">19</span><span class="o">/</span><span class="mi">676</span>   <span class="s2">&quot;Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c &quot;</span>
+</span><span class='line'> <span class="n">N</span> <span class="mi">31</span> <span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">.</span><span class="n">loca</span>  <span class="no">Wed</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">21</span><span class="p">:</span><span class="mi">33</span>  <span class="mi">19</span><span class="o">/</span><span class="mi">676</span>   <span class="s2">&quot;Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c &quot;</span>
+</span><span class='line'> <span class="n">N</span> <span class="mi">32</span> <span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">.</span><span class="n">loca</span>  <span class="no">Wed</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">21</span><span class="p">:</span><span class="mi">34</span>  <span class="mi">19</span><span class="o">/</span><span class="mi">676</span>   <span class="s2">&quot;Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c &quot;</span>
+</span><span class='line'> <span class="n">N</span> <span class="mi">33</span> <span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">.</span><span class="n">loca</span>  <span class="no">Wed</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">21</span><span class="p">:</span><span class="mi">35</span>  <span class="mi">19</span><span class="o">/</span><span class="mi">676</span>   <span class="s2">&quot;Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c &quot;</span>
+</span><span class='line'> <span class="n">N</span> <span class="mi">34</span> <span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">.</span><span class="n">loca</span>  <span class="no">Wed</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">21</span><span class="p">:</span><span class="mi">36</span>  <span class="mi">19</span><span class="o">/</span><span class="mi">676</span>   <span class="s2">&quot;Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c &quot;</span>
+</span><span class='line'> <span class="n">N</span> <span class="mi">35</span> <span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">.</span><span class="n">loca</span>  <span class="no">Wed</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">21</span><span class="p">:</span><span class="mi">37</span>  <span class="mi">19</span><span class="o">/</span><span class="mi">676</span>   <span class="s2">&quot;Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c &quot;</span>
+</span><span class='line'> <span class="n">N</span> <span class="mi">36</span> <span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">.</span><span class="n">loca</span>  <span class="no">Wed</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">21</span><span class="p">:</span><span class="mi">38</span>  <span class="mi">19</span><span class="o">/</span><span class="mi">676</span>   <span class="s2">&quot;Cron &lt;geo@MacBook-Pro&gt; /bin/bash -l -c &quot;</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Woah. Where&rsquo;d all those come from? Cron! Let&rsquo;s open one:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="p">?</span> <span class="mi">36</span>
+</span><span class='line'><span class="no">Message</span> <span class="mi">36</span><span class="p">:</span>
+</span><span class='line'><span class="no">From</span> <span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">.</span><span class="n">local</span>  <span class="no">Wed</span> <span class="no">Jul</span> <span class="mi">29</span> <span class="mi">21</span><span class="p">:</span><span class="mi">38</span><span class="p">:</span><span class="mo">00</span> <span class="mi">2015</span>
+</span><span class='line'><span class="n">X</span><span class="o">-</span><span class="no">Original</span><span class="o">-</span><span class="ss">To</span><span class="p">:</span> <span class="n">geo</span>
+</span><span class='line'><span class="no">Delivered</span><span class="o">-</span><span class="ss">To</span><span class="p">:</span> <span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">.</span><span class="n">local</span>
+</span><span class='line'><span class="ss">From</span><span class="p">:</span> <span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">.</span><span class="n">local</span> <span class="p">(</span><span class="no">Cron</span> <span class="no">Daemon</span><span class="p">)</span>
+</span><span class='line'><span class="ss">To</span><span class="p">:</span> <span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">.</span><span class="n">local</span>
+</span><span class='line'><span class="ss">Subject</span><span class="p">:</span> <span class="no">Cron</span> <span class="o">&lt;</span><span class="n">geo</span><span class="vi">@MacBook</span><span class="o">-</span><span class="no">Pro</span><span class="o">&gt;</span> <span class="sr">/bin/</span><span class="n">bash</span> <span class="o">-</span><span class="n">l</span> <span class="o">-</span><span class="n">c</span> <span class="s1">&#39;echo &#39;</span><span class="p">\</span><span class="s1">&#39;&#39;</span><span class="n">hello</span> <span class="n">from</span> <span class="n">rails!</span><span class="o">!!</span><span class="s1">&#39;\&#39;&#39;</span><span class="err">&#39;</span>
+</span><span class='line'><span class="n">X</span><span class="o">-</span><span class="no">Cron</span><span class="o">-</span><span class="ss">Env</span><span class="p">:</span> <span class="o">&lt;</span><span class="no">SHELL</span><span class="o">=</span><span class="sr">/bin/s</span><span class="n">h</span><span class="o">&gt;</span>
+</span><span class='line'><span class="n">X</span><span class="o">-</span><span class="no">Cron</span><span class="o">-</span><span class="ss">Env</span><span class="p">:</span> <span class="o">&lt;</span><span class="no">PATH</span><span class="o">=</span><span class="sr">/usr/</span><span class="ss">bin</span><span class="p">:</span><span class="sr">/bin&gt;</span>
+</span><span class='line'><span class="sr">X-Cron-Env: &lt;LOGNAME=geo&gt;</span>
+</span><span class='line'><span class="sr">X-Cron-Env: &lt;USER=geo&gt;</span>
+</span><span class='line'><span class="sr">X-Cron-Env: &lt;HOME=/</span><span class="no">Users</span><span class="o">/</span><span class="n">geo</span><span class="o">&gt;</span>
+</span><span class='line'><span class="ss">Date</span><span class="p">:</span> <span class="no">Wed</span><span class="p">,</span> <span class="mi">29</span> <span class="no">Jul</span> <span class="mi">2015</span> <span class="mi">21</span><span class="p">:</span><span class="mi">38</span><span class="p">:</span><span class="mo">00</span> <span class="o">-</span><span class="mo">0400</span> <span class="p">(</span><span class="no">EDT</span><span class="p">)</span>
+</span><span class='line'>
+</span><span class='line'><span class="n">hello</span> <span class="n">from</span> <span class="n">rails!</span><span class="o">!!</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>It worked! Now let&rsquo;s shut it down. It&rsquo;s simple with whenever.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">whenever</span> <span class="o">-</span><span class="n">c</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>This will clear whenever-based cron jobs from crontab.</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="err">$</span> <span class="n">crontab</span> <span class="o">-</span><span class="n">l</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Crontab is now empty: we won&rsquo;t get any more messages.</p>
+
+<p>That&rsquo;s the whenever workflow. Adding ruby is super easy. Here&rsquo;s an example of code in schedule.rb that manages a database, fetches data from an API and sends email:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">every</span> <span class="mi">1</span><span class="o">.</span><span class="n">day</span> <span class="ss">:at</span> <span class="o">=&gt;</span> <span class="s1">&#39;2:30 am&#39;</span> <span class="k">do</span>
+</span><span class='line'>  <span class="n">runner</span> <span class="s1">&#39;EmailAutomator.clean_and_send&#39;</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">class</span> <span class="nc">EmailAutomator</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">self</span><span class="o">.</span><span class="nf">clean_and_send</span>
+</span><span class='line'>    <span class="no">Article</span><span class="o">.</span><span class="n">destroy_all</span>
+</span><span class='line'>    <span class="no">User</span><span class="o">.</span><span class="n">all</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">user</span><span class="o">|</span>
+</span><span class='line'>      <span class="n">user</span><span class="o">.</span><span class="n">keywords</span><span class="o">.</span><span class="n">each</span> <span class="k">do</span> <span class="o">|</span><span class="n">keyword</span><span class="o">|</span>
+</span><span class='line'>        <span class="n">keyword</span><span class="o">.</span><span class="n">get_all_recent_abstracts</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+</span><span class='line'>      <span class="k">end</span>
+</span><span class='line'>      <span class="no">UserMailer</span><span class="o">.</span><span class="n">daily_result_email</span><span class="p">(</span><span class="n">user</span><span class="p">)</span><span class="o">.</span><span class="n">deliver_now</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>As a note, cron jobs are handled by UNIX, not your Rails application. You don&rsquo;t need a server running for these jobs to complete.</p>
+
+<p>That&rsquo;s pretty much it. Whenever provides an easy to understand syntax and simple methods for scheduling simple to complex jobs in Ruby applications.</p>
+]]></content>
+  </entry>
   
   <entry>
     <title type="html"><![CDATA[Working with errors in Ruby: begin, rescue and ensure]]></title>
